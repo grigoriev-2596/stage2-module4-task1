@@ -1,16 +1,16 @@
 package com.mjc.stage2;
 
 public class ThreadSafeSingleton {
-    private volatile ThreadSafeSingleton instance;
-
+    private static volatile ThreadSafeSingleton instance;
+    private static Object mutex = new Object();
     private ThreadSafeSingleton() {
 
     }
 
-    public ThreadSafeSingleton getInstance() {
+    public static ThreadSafeSingleton getInstance() {
         ThreadSafeSingleton localRef = instance;
         if (localRef == null) {
-            synchronized (this) {
+            synchronized (mutex) {
                 localRef = instance;
                 if (localRef == null) {
                     localRef = instance = new ThreadSafeSingleton();
